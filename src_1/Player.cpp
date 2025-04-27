@@ -8,9 +8,10 @@
 #include <cmath>
 
 Player::Player(): sprite(texture) {
-    if (!texture.loadFromFile("assets/player.jpg")) {
+    if (!texture.loadFromFile("/Users/zlin/Desktop/Code/Game/src_1/assets/player.jpg")) {
         std::cerr << "Error loading texture" << std::endl;
-        return;
+    } else {
+        std::cerr << "Successfully loaded texture" << std::endl;
     }
     sprite.setTexture(texture);
     // 图像原点为照片中心
@@ -36,7 +37,7 @@ void Player::update(float deltaTime) {
     sf::Vector2i mousePos = sf::Mouse::getPosition();
     sf::Vector2f playerPos = sprite.getPosition();
     float angle = atan2(mousePos.y - playerPos.y, mousePos.x - playerPos.x) * 180 / M_PI;
-    sprite.setRotation(sf::degrees(angle + 90.0f));  // 获取角度的度数并设置旋转
+    sprite.setRotation(sf::degrees(angle + 90.0f)); // 获取角度的度数并设置旋转
 }
 
 void Player::draw(sf::RenderWindow &window) {
