@@ -2,7 +2,7 @@
 // Created by Zlin on 2025/4/27.
 //
 
-#include "Player.h"
+#include "header/Player.h"
 #include <SFML/Window.hpp>
 
 int main() {
@@ -22,7 +22,7 @@ int main() {
             }
         }
         player.handleInput(deltaTime);
-        player.update(deltaTime);
+        player.update();
 
         window.clear();
         player.draw(window);

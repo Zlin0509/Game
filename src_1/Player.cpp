@@ -1,7 +1,7 @@
 //
 // Created by Zlin on 2025/4/27.
 //
-#include "Player.h"
+#include "header/Player.h"
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
@@ -32,7 +32,7 @@ void Player::handleInput(float deltaTime) {
 }
 
 
-void Player::update(float deltaTime) {
+void Player::update() {
     // 玩家朝向鼠标方向旋转
     sf::Vector2i mousePos = sf::Mouse::getPosition();
     sf::Vector2f playerPos = sprite.getPosition();

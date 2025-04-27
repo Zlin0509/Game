@@ -14,7 +14,7 @@ public:
     void handleInput(float deltaTime);
 
     // 更新玩家状态
-    void update(float deltaTime);
+    void update();
 
     // 绘制玩家
     void draw(sf::RenderWindow &window);
