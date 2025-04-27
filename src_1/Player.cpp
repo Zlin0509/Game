@@ -8,7 +8,7 @@
 #include <cmath>
 
 Player::Player(): sprite(texture) {
-    if (!texture.loadFromFile("assets/player.png")) {
+    if (!texture.loadFromFile("assets/player.jpg")) {
         std::cerr << "Error loading texture" << std::endl;
         return;
     }
