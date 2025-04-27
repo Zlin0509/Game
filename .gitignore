@@ -1,0 +1,47 @@
+# CLion specific files
+.idea/
+*.iml
+
+# CMake build directory
+cmake-build-*/
+
+# User-specific files
+*.user
+*.user.*.userprefs
+
+# Build files
+*.o
+*.a
+*.so
+*.dylib
+*.lib
+*.exe
+
+# Dependency directory
+/dependencies/
+
+# CMake cache and logs
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+CTestTestfile.cmake
+
+# Compiled output directories
+bin/
+build/
+
+# JetBrains IDE-specific files
+.idea/
+*.iml
+
+# User-specific file
+.idea/.idea/
+
+# Project-specific log files
+*.log
+
+# Temporary files
+*~
+*.swp
