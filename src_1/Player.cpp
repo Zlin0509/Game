@@ -2,7 +2,8 @@
 // Created by Zlin on 2025/4/27.
 //
 #include "Player.h"
-#include <SFML/Window.hpp>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 #include <cmath>
 
