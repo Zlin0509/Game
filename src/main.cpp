@@ -26,7 +26,7 @@ int main() {
                 window.close();
         }
 
-        // 计算时间差，deltaTime（以秒为单位）
+        // 计算时间差，deltaTime
         float deltaTime = clock.restart().asSeconds();
 
         // 更新玩家
