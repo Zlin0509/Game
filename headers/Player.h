@@ -5,4 +5,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <SFML/Graphics.hpp>
+
+class Player {
+public:
+    Player();
+
+    void handleInput(float deltaTime);
+    void update(float deltaTime);
+    void draw(sf::RenderTarget& target) const;
+
+    sf::Vector2f getPosition() const;
+
+private:
+    sf::CircleShape shape;
+    float speed;
+};
+
 #endif //PLAYER_H
