@@ -1,7 +1,7 @@
 //
 // Created by 27682 on 2025/5/27.
 //
-#include "../headers/Player.h"
+#include "../headers/Player.hpp"
 #include <cmath>
 
 // 手动实现归一化
