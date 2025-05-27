@@ -18,7 +18,8 @@ public:
     sf::Vector2f getPosition() const;
 
 private:
-    sf::CircleShape shape;
+    sf::Texture texture;
+    sf::Sprite sprite;   // 精灵对象
     float speed;
 };
 
