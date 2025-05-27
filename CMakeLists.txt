@@ -20,7 +20,8 @@ FetchContent_MakeAvailable(SFML)
 # 可执行程序
 add_executable(Game
         src/main.cpp
-        #        src/Player.cpp
+        src/Photo.cpp
+        src/Player.cpp
 )
 
 # 链接 SFML 模块
