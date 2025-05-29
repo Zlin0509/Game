@@ -24,7 +24,7 @@ int main() {
 
     // 读取字体
     sf::Font font;
-    if (!font.openFromFile("C:/Users/27682/Desktop/Game/assets/Font/A.ttf")) {
+    if (!font.openFromFile("assets/Font/A.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
 
