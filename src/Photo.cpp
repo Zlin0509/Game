@@ -1,7 +1,7 @@
 //
 // Created by 27682 on 2025/5/28.
 //
-#include "../headers/Photo.h"
+#include "Photo.h"
 
 Photo::Photo() {
     auto playerTexture = std::make_unique<sf::Texture>();

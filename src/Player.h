@@ -6,7 +6,7 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-#include "../headers/Monster.h"
+#include "Monster.h"
 
 class Player {
 public:

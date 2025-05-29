@@ -3,9 +3,9 @@
 //
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "../headers/Photo.h"
-#include "../headers/Player.h"
-#include "../headers/Monster.h"
+#include "Photo.h"
+#include "Player.h"
+#include "Monster.h"
 
 enum class GameState {
     Menu,
@@ -37,9 +37,11 @@ int main() {
     // 读取基本Texture内容到内存池
     Photo all;
 
+    // 玩家和怪物类
     Player player(*all.getTexture("Player"));
     std::vector<Monster> monsters;
 
+    // 背景元素
     sf::Sprite OpeningBackground(*all.getTexture("Back_Opening"));
     sf::Sprite PlayingBackground(*all.getTexture("Back_Playing"));
 

@@ -1,7 +1,7 @@
 //
 // Created by 27682 on 2025/5/28.
 //
-#include "../headers/Player.h"
+#include "Player.h"
 
 #include <iostream>
 
