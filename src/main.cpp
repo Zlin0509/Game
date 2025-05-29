@@ -34,7 +34,7 @@ int main() {
     hpText.setFillColor(sf::Color::Red);
     hpText.setPosition({10.f, 10.f}); // 左上角位置
 
-    // 读取基本Texture内容到内存池
+    // 读取Texture内容到内存池
     Photo all;
 
     // 玩家和怪物类
