@@ -69,7 +69,9 @@ int main() {
                     }
                 }
             } else if (currentState == GameState::Playing) {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+                    currentState = GameState::Stoped;
+                    std::cerr << "Switched to Stoped state\n";
                 }
             } else if (currentState == GameState::Settings) {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
