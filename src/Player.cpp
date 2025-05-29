@@ -3,6 +3,8 @@
 //
 #include "../headers/Player.h"
 
+#include <iostream>
+
 // 构造函数，接受一个纹理对象
 Player::Player(const sf::Texture &texture) : sprite(texture) {
     // 获取纹理尺寸并缩放精灵为 32x32
@@ -13,25 +15,56 @@ Player::Player(const sf::Texture &texture) : sprite(texture) {
     sprite.setPosition({400.f, 300.f});
 }
 
-// 处理玩家输入
-void Player::handleInput(float deltaTime) {
+bool Player::get_state() const {
+    return health > 0;
+}
+
+int Player::get_health() const {
+    return health;
+}
+
+// 更新玩家位置
+void Player::updatePostion(float deltaTime) {
     sf::Vector2f movement(0.f, 0.f);
 
-    // 按键处理
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) movement.y -= 1.f;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) movement.y += 1.f;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) movement.x -= 1.f;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) movement.x += 1.f;
 
-    // 根据输入移动玩家
-    if (movement != sf::Vector2f(0.f, 0.f)) {
-        sprite.move(movement * speed * deltaTime);
+    if (movement != sf::Vector2f(0.f, 0.f)) sprite.move(movement * speed * deltaTime);
+
+    sf::FloatRect bounds = sprite.getGlobalBounds();
+    sf::Vector2f pos = sprite.getPosition();
+
+    float minX = 0.f;
+    float minY = 0.f;
+    float maxX = 960.f - bounds.size.x;
+    float maxY = 540.f - bounds.size.y;
+
+    // 修正位置
+    if (pos.x < minX) pos.x = minX;
+    if (pos.y < minY) pos.y = minY;
+    if (pos.x > maxX) pos.x = maxX;
+    if (pos.y > maxY) pos.y = maxY;
+
+    sprite.setPosition(pos);
+}
+
+// 更新玩家血量
+void Player::updateHealth(const std::vector<Monster> &monsters) {
+    for (const Monster &monster: monsters) {
+        if (const std::optional intersection = sprite.getGlobalBounds().findIntersection(monster.getBounds())) {
+            health -= monster.getDamage();
+            std::cerr << "Health: " << health << std::endl;
+        }
     }
 }
 
 // 更新玩家状态
-void Player::update(float deltaTime) {
-    handleInput(deltaTime);
+void Player::update(float deltaTime, const std::vector<Monster> &monsters) {
+    updatePostion(deltaTime);
+    updateHealth(monsters);
 }
 
 // 绘制玩家

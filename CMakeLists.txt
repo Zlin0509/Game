@@ -22,6 +22,7 @@ add_executable(Game
         src/main.cpp
         src/Photo.cpp
         src/Player.cpp
+        src/Monster.cpp
 )
 
 # 链接 SFML 模块

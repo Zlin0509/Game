@@ -4,19 +4,31 @@
 #include "../headers/Photo.h"
 
 Photo::Photo() {
-    auto backTexture = std::make_unique<sf::Texture>();
-    if (!backTexture->loadFromFile("C:/Users/27682/Desktop/Game/assets/Background/background.jpg")) {
-        std::cerr << "Error loading background texture" << std::endl;
-    }
-    all["Back1"] = std::move(backTexture);  // 使用 std::move 转移 ownership
-
     auto playerTexture = std::make_unique<sf::Texture>();
     if (!playerTexture->loadFromFile("C:/Users/27682/Desktop/Game/assets/Player/Main.png")) {
         std::cerr << "Error loading player texture" << std::endl;
     }
-    all["Player1"] = std::move(playerTexture);  // 将 unique_ptr 存入容器
+    all["Player"] = std::move(playerTexture);
+
+    auto monsterTexture = std::make_unique<sf::Texture>();
+    if (!monsterTexture->loadFromFile("C:/Users/27682/Desktop/Game/assets/Monster/monster.png")) {
+        std::cerr << "Error loading monster texture" << std::endl;
+    }
+    all["Monster"] = std::move(monsterTexture);
+
+    auto Back_Opening = std::make_unique<sf::Texture>();
+    if (!Back_Opening->loadFromFile("C:/Users/27682/Desktop/Game/assets/Background/Opening.png")) {
+        std::cerr << "Error loading opening texture" << std::endl;
+    }
+    all["Back_Opening"] = std::move(Back_Opening);
+
+    auto Back_Playing = std::make_unique<sf::Texture>();
+    if (!Back_Playing->loadFromFile("C:/Users/27682/Desktop/Game/assets/Background/Playing.png")) {
+        std::cerr << "Error loading playing texture" << std::endl;
+    }
+    all["Back_Playing"] = std::move(Back_Playing);
 }
 
 sf::Texture *Photo::getTexture(std::string name) {
-    return all[name].get();  // 返回原始指针
+    return all[name].get();
 }

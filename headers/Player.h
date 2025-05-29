@@ -6,20 +6,27 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-#include <string>
+#include "../headers/Monster.h"
 
 class Player {
 public:
     Player(const sf::Texture &texture); // 修改为接受纹理对象
 
-    void handleInput(float deltaTime); // 处理玩家输入
+    void updatePostion(float deltaTime); // 更新玩家位置
 
-    void update(float deltaTime); // 更新玩家状态
+    void updateHealth(const std::vector<Monster> &monsters); // 更新玩家血量
+
+    void update(float deltaTime, const std::vector<Monster> &monsters); // 更新玩家状态
 
     void draw(sf::RenderWindow &window); // 绘制玩家
+
+    bool get_state() const;
+
+    int get_health() const;
 
 private:
     sf::Sprite sprite; // 玩家精灵
     float speed = 300.f; // 玩家移动速度
+    int health = 1000000;
 };
 #endif //PLAYER_H

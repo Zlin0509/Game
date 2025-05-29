@@ -5,40 +5,101 @@
 #include <SFML/Graphics.hpp>
 #include "../headers/Photo.h"
 #include "../headers/Player.h"
+#include "../headers/Monster.h"
 
+enum class GameState {
+    Menu,
+    Playing,
+    Settings,
+    Exit
+};
 
 int main() {
-    // 创建一个窗口，大小为 800x600，标题为 "Potato Brothers"
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Potato Brothers");
-    // 设置游戏帧率限制
+    sf::RenderWindow window(sf::VideoMode({960, 540}), "Potato Brothers");
     window.setFramerateLimit(120);
 
-    Photo all;
-    Player player(*all.getTexture("Player1"));
+    // 游戏页面状态
+    GameState currentState = GameState::Menu;
 
-    // 游戏主循环
-    sf::Clock clock; // 用于计算时间差，deltaTime
+    // 读取字体
+    sf::Font font;
+    if (!font.openFromFile("C:/Users/27682/Desktop/Game/assets/Font/A.ttf")) {
+        std::cerr << "Failed to load font" << std::endl;
+    }
+
+    // Playing窗口的血量展示
+    sf::Text hpText(font);
+    hpText.setCharacterSize(24); // 字体大小
+    hpText.setFillColor(sf::Color::Red);
+    hpText.setPosition({10.f, 10.f}); // 左上角位置
+
+    // 读取基本Texture内容到内存池
+    Photo all;
+
+    Player player(*all.getTexture("Player"));
+    std::vector<Monster> monsters;
+
+    sf::Sprite OpeningBackground(*all.getTexture("Back_Opening"));
+    sf::Sprite PlayingBackground(*all.getTexture("Back_Playing"));
+
+    sf::Clock clock;
     while (window.isOpen()) {
-        // 检查所有触发的窗口事件
         while (const std::optional event = window.pollEvent()) {
-            // 关闭窗口指令
             if (event->is<sf::Event::Closed>())
                 window.close();
+
+            // 处理窗口切换
+            if (currentState == GameState::Menu) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                    sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+                    int x = localPosition.x;
+                    int y = localPosition.y;
+                    if (x >= 25 && x <= 81 && y >= 323 && y <= 360) {
+                        currentState = GameState::Playing;
+                        std::cerr << "Switched to Playing state\n";
+                    } else if (x >= 25 && x <= 81 && y >= 376 && y <= 400) {
+                        currentState = GameState::Settings;
+                        std::cerr << "Switched to Settings state\n";
+                    } else if (x >= 25 && x <= 81 && y >= 464 && y <= 496) {
+                        currentState = GameState::Exit;
+                        std::cerr << "Exiting game...\n";
+                    }
+                }
+            } else if (currentState == GameState::Playing) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                }
+            } else if (currentState == GameState::Settings) {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                }
+            }
         }
 
-        // 计算时间差，deltaTime
-        float deltaTime = clock.restart().asSeconds();
-
-        // 更新玩家
-        player.update(deltaTime);
-
-        // 清屏
         window.clear(sf::Color::Black);
 
-        // 绘制玩家
-        player.draw(window);
+        float deltaTime = clock.restart().asSeconds();
 
-        // 显示内容
+        if (currentState == GameState::Exit) {
+            window.close();
+        } else if (currentState == GameState::Menu) {
+            window.draw(OpeningBackground);
+        } else if (currentState == GameState::Playing) {
+            window.draw(PlayingBackground);
+            while (monsters.size() <= 8) monsters.emplace_back(*all.getTexture("Monster"));
+
+            for (auto &monster: monsters) monster.update(deltaTime);
+
+            player.update(deltaTime, monsters);
+
+            for (auto &monster: monsters) monster.draw(window);
+
+            player.draw(window);
+
+            hpText.setString("HP: " + std::to_string(player.get_health()));
+            window.draw(hpText);
+
+            if (!player.get_state()) currentState = GameState::Exit;
+        }
+
         window.display();
     }
 
