@@ -56,7 +56,7 @@ void Player::updateHealth(const std::vector<Monster> &monsters) {
     for (const Monster &monster: monsters) {
         if (const std::optional intersection = sprite.getGlobalBounds().findIntersection(monster.getBounds())) {
             health -= monster.getDamage();
-            std::cerr << "Health: " << health << std::endl;
+            // std::cerr << "Health: " << health << std::endl;
         }
     }
 }

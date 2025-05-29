@@ -84,6 +84,9 @@ int main() {
             window.draw(OpeningBackground);
         } else if (currentState == GameState::Playing) {
             window.draw(PlayingBackground);
+
+            if (!player.get_state()) currentState = GameState::Exit;
+
             while (monsters.size() <= 8) monsters.emplace_back(*all.getTexture("Monster"));
 
             for (auto &monster: monsters) monster.update(deltaTime);
@@ -96,8 +99,6 @@ int main() {
 
             hpText.setString("HP: " + std::to_string(player.get_health()));
             window.draw(hpText);
-
-            if (!player.get_state()) currentState = GameState::Exit;
         }
 
         window.display();
