@@ -46,3 +46,19 @@ int Monster::getDamage() const {
     return damage;
 }
 
+bool Monster::getHealth() const {
+    return health <= 0;
+}
+
+bool Monster::isUsed() const {
+    return alive;
+}
+
+void Monster::changeLive() {
+    alive = !alive;
+}
+
+void Monster::makeDamge(int damge) {
+    health -= damge;
+}
+

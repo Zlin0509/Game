@@ -17,14 +17,25 @@ public:
 
     sf::FloatRect getBounds() const;
 
+    sf::Vector2f getPosition() const;
+
     int getDamage() const;
+
+    bool getHealth() const;
+
+    bool isUsed() const;
+
+    void changeLive();
+
+    void makeDamge(int damge);
 
     void respawn(); // 重新随机生成怪物
 
 private:
     sf::Sprite sprite;
     sf::Vector2f velocity; // 移动方向
-    int damage = 1;
+    int damage = 1, health = 100;
+    bool alive = false;
 };
 
 #endif //MONSTER_H

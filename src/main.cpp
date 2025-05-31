@@ -3,6 +3,8 @@
 //
 #include <iostream>
 #include <SFML/Graphics.hpp>
+
+#include "Bullet.h"
 #include "Photo.h"
 #include "Player.h"
 #include "Monster.h"
@@ -14,6 +16,16 @@ enum class GameState {
     Stoped,
     Exit
 };
+
+// 添加子弹
+void Player_to_Monster(Photo &all, const Player &player, const std::vector<Monster> Monsters,
+                       std::vector<Bullet> &Bullets) {
+    sf::Vector2f pos = player.getPosition();
+    for (Monster monster: Monsters) {
+        if (monster.isUsed()) continue;
+        Bullets.emplace_back(pos, &monster, *all.getTexture("1"));
+    }
+}
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({960, 540}), "Potato Brothers");
@@ -39,7 +51,8 @@ int main() {
 
     // 玩家和怪物类
     Player player(*all.getTexture("Player"));
-    std::vector<Monster> monsters;
+    std::vector<Monster> Monsters;
+    std::vector<Bullet> Bullets;
 
     // 背景元素
     sf::Sprite OpeningBackground(*all.getTexture("Back_Opening"));
@@ -93,21 +106,40 @@ int main() {
         } else if (currentState == GameState::Playing) {
             window.draw(PlayingBackground);
 
-            while (monsters.size() <= 8) monsters.emplace_back(*all.getTexture("Monster"));
+            // 如果怪物数量少于8，生成新怪物
+            while (Monsters.size() <= 8) Monsters.emplace_back(*all.getTexture("Monster"));
 
-            for (auto &monster: monsters) monster.update(deltaTime);
+            // 生成当前回合发生的子弹
+            Player_to_Monster(all, player, Monsters, Bullets);
 
-            player.update(deltaTime, monsters);
+            // 更新怪物坐标
+            for (auto &monster: Monsters) monster.update(deltaTime);
 
-            for (auto &monster: monsters) monster.draw(window);
+            //更新子弹坐标
+            for (auto &bullet: Bullets) bullet.update(deltaTime);
+
+            // 判断子弹状态，如果集中目标或者目标已经死了，删除这个子弹
+            for (auto it = Bullets.begin(); it != Bullets.end();) it->checkCollision() ? it = Bullets.erase(it) : ++it;
+
+            // 判断怪物状态，如果怪物血量<=0，说明死亡，删除这个怪物
+            for (auto it = Monsters.begin(); it != Monsters.end();) it->getHealth() ? it = Monsters.erase(it) : ++it;
+
+            // 更新玩家坐标和血量
+            player.update(deltaTime, Monsters);
+
+            // 绘图
+            for (auto &monster: Monsters) monster.draw(window);
+
+            for (auto &bullet: Bullets) bullet.draw(window);
 
             player.draw(window);
 
-            hpText.setString("HP: " + std::to_string(player.get_health()));
+            hpText.setString("HP: " + std::to_string(player.getHealth()));
             window.draw(hpText);
 
-            if (!player.get_state()) currentState = GameState::Stoped;
+            if (!player.getState()) currentState = GameState::Stoped;
         } else if (currentState == GameState::Stoped) {
+            std::cerr << "傻逼你已经死了\n";
         }
 
         window.display();

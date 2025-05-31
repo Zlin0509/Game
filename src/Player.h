@@ -20,9 +20,11 @@ public:
 
     void draw(sf::RenderWindow &window); // 绘制玩家
 
-    bool get_state() const;
+    bool getState() const;
 
-    int get_health() const;
+    int getHealth() const;
+
+    sf::Vector2f getPosition() const;
 
 private:
     sf::Sprite sprite; // 玩家精灵

@@ -15,12 +15,16 @@ Player::Player(const sf::Texture &texture) : sprite(texture) {
     sprite.setPosition({400.f, 300.f});
 }
 
-bool Player::get_state() const {
+bool Player::getState() const {
     return health > 0;
 }
 
-int Player::get_health() const {
+int Player::getHealth() const {
     return health;
+}
+
+sf::Vector2f Player::getPosition() const {
+    return sprite.getPosition();
 }
 
 // 更新玩家位置
