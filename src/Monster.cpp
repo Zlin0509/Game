@@ -2,6 +2,8 @@
 // Created by 27682 on 2025/5/29.
 //
 #include "Monster.h"
+
+#include <iostream>
 #include <random>
 
 std::mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -32,6 +34,7 @@ void Monster::update(float deltaTime) {
     if (pos.x < 10 || pos.x > 950 || pos.y < 10 || pos.y > 510) {
         respawn(); // 超出边界重新随机生成
     }
+    // std::cerr << pos.x << ", " << pos.y << std::endl;
 }
 
 void Monster::draw(sf::RenderWindow &window) {
@@ -62,3 +65,12 @@ void Monster::makeDamge(int damge) {
     health -= damge;
 }
 
+sf::Vector2f Monster::getPosition() const {
+    return sprite.getPosition();
+}
+
+void Monster::reset() {
+    health = 100;
+    alive = false;
+    respawn();
+}

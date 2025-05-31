@@ -16,6 +16,13 @@ Photo::Photo() {
     }
     all["Monster"] = std::move(monsterTexture);
 
+    auto bulletTexture = std::make_unique<sf::Texture>();
+    if (!bulletTexture->loadFromFile("assets/Bullet/Bullet.png")) {
+        std::cerr << "Error loading bullet texture" << std::endl;
+    }
+    all["Bullet"] = std::move(bulletTexture);
+
+    // 背景元素
     auto Back_Opening = std::make_unique<sf::Texture>();
     if (!Back_Opening->loadFromFile("assets/Background/Opening.png")) {
         std::cerr << "Error loading opening texture" << std::endl;

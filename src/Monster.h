@@ -31,6 +31,8 @@ public:
 
     void respawn(); // 重新随机生成怪物
 
+    void reset();
+
 private:
     sf::Sprite sprite;
     sf::Vector2f velocity; // 移动方向

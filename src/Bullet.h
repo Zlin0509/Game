@@ -8,7 +8,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Monster.h"
-#include "Player.h"
 
 class Bullet {
 public:
@@ -26,7 +25,6 @@ private:
     sf::Sprite sprite;
     Monster *target;
     int damge = 10;
-    float speed = 100.f;
 };
 
 #endif //BULLET_H
