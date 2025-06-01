@@ -30,7 +30,7 @@ int main() {
         std::cerr << "Failed to load font" << std::endl;
     }
 
-    int score = 0; // 计分变量
+    int score = 0, highScore = 0;
 
     // Playing窗口的得分展示
     sf::Text scoreText(font);
@@ -43,6 +43,33 @@ int main() {
     hpText.setCharacterSize(24); // 字体大小
     hpText.setFillColor(sf::Color::Red);
     hpText.setPosition({10.f, 10.f}); // 左上角位置
+
+    // 游戏结束页面按钮
+    sf::Text finalScoreText(font);
+    finalScoreText.setCharacterSize(30);
+    finalScoreText.setFillColor(sf::Color::Yellow);
+    finalScoreText.setPosition({300.f, 150.f});
+
+    sf::Text highScoreText(font);
+    highScoreText.setCharacterSize(30);
+    highScoreText.setFillColor(sf::Color::Cyan);
+    highScoreText.setPosition({300.f, 200.f});
+
+    sf::RectangleShape returnButton(sf::Vector2f(200.f, 50.f));
+    returnButton.setPosition({380.f, 300.f});
+    returnButton.setFillColor(sf::Color(150, 150, 250));
+
+    sf::Text returnText(font);
+    returnText.setCharacterSize(24);
+    returnText.setString("Return to Menu");
+    returnText.setFillColor(sf::Color::Black);
+    returnText.setPosition({400.f, 310.f});
+
+    sf::Text restartGame(font);
+    restartGame.setCharacterSize(24);
+    restartGame.setString("Restart");
+    restartGame.setFillColor(sf::Color::Red);
+    restartGame.setPosition({400.f, 410.f});
 
     // 读取Texture内容到内存池
     Photo all;
@@ -149,7 +176,34 @@ int main() {
 
             if (!player.getState()) currentState = GameState::Stoped;
         } else if (currentState == GameState::Stoped) {
-            std::cerr << "傻逼你已经死了\n";
+            // std::cerr << "傻逼你已经死了\n";
+            // 更新最高分
+            if (score > highScore) highScore = score;
+
+            // 绘制得分文本
+            finalScoreText.setString("Your Score: " + std::to_string(score));
+            highScoreText.setString("High Score: " + std::to_string(highScore));
+
+            window.draw(finalScoreText);
+            window.draw(highScoreText);
+            window.draw(returnButton);
+            window.draw(returnText);
+            window.draw(restartGame);
+
+            // 检测点击“Return to Menu”按钮
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+                score = 0;
+                player.reset();
+                Monsters.clear();
+                Bullets.clear();
+                auto [mx, my] = sf::Mouse::getPosition(window);
+                if (mx >= 380 && mx <= 580 && my >= 300 && my <= 350) {
+                    currentState = GameState::Menu;
+                } else if (mx >= 380 && mx <= 580 && my >= 400 && my <= 450) {
+                    currentState = GameState::Playing;
+                }
+            }
+
         }
 
         window.display();

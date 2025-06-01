@@ -24,11 +24,13 @@ public:
 
     int getHealth() const;
 
+    void reset();
+
     sf::Vector2f getPosition() const;
 
 private:
     sf::Sprite sprite; // 玩家精灵
     float speed = 300.f; // 玩家移动速度
-    int health = 1000000;
+    int health = 1000;
 };
 #endif //PLAYER_H

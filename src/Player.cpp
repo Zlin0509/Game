@@ -75,3 +75,9 @@ void Player::update(float deltaTime, const std::vector<Monster> &monsters) {
 void Player::draw(sf::RenderWindow &window) {
     window.draw(sprite);
 }
+
+void Player::reset() {
+    health = 100;
+    sprite.setPosition({400.f, 300.f});
+}
+
