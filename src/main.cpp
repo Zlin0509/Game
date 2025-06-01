@@ -24,6 +24,10 @@ int main() {
     // 游戏页面状态
     GameState currentState = GameState::Menu;
 
+    float bulletCooldown = 0.f;           // 冷却计时器
+    const float bulletInterval = 0.3f;    // 冷却间隔
+
+
     // 读取字体
     sf::Font font;
     if (!font.openFromFile("assets/Font/A.ttf")) {
@@ -132,14 +136,32 @@ int main() {
             window.draw(PlayingBackground);
 
             // 如果怪物数量少于8，生成新怪物
-            while (Monsters.size() < 8) Monsters.emplace_back(*all.getTexture("Monster"));
+            while (Monsters.size() < 16) Monsters.emplace_back(*all.getTexture("Monster"));
 
-            // 生成当前回合发生的子弹
-            for (auto &monster: Monsters) {
-                if (monster.isUsed()) continue;
-                Bullets.emplace_back(player.getPosition(), &monster, *all.getTexture("Bullet"));
-                monster.changeLive();
+            // 每0.5秒向最近的怪物发射一个子弹
+            bulletCooldown += deltaTime;
+
+            if (bulletCooldown >= bulletInterval && !Monsters.empty()) {
+                // 找到距离玩家最近的怪物
+                Monster* closest = nullptr;
+                float minDist = std::numeric_limits<float>::max();
+                sf::Vector2f playerPos = player.getPosition();
+
+                for (auto &monster : Monsters) {
+                    sf::Vector2f mpos = monster.getPosition();
+                    float dist = std::hypot(playerPos.x - mpos.x, playerPos.y - mpos.y);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        closest = &monster;
+                    }
+                }
+                // 向最近的怪物发射子弹
+                if (closest) {
+                    Bullets.emplace_back(playerPos, closest, *all.getTexture("Bullet"));
+                    bulletCooldown = 0.f;  // 重置冷却
+                }
             }
+
 
             // 更新怪物坐标
             for (auto &monster: Monsters) monster.update(deltaTime);
